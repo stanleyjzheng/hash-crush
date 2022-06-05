@@ -4,30 +4,10 @@ import random
 import string
 import os
 from dotenv import load_dotenv
+from utils import *
 load_dotenv()
 
-
-def hash_text(text):
-    text = text.lower().strip()
-    hs = pbkdf2_sha256.using(rounds=6400).hash(text)
-    return hs[20:].replace('$', '')
-
-
-def verify_text(hs, text):
-    text = text.lower().strip()
-    hs = f"$pbkdf2-sha256$6400${hs[:-43]}${hs[-43:]}"
-    return pbkdf2_sha256.verify(text, hs)
-
-
-st.set_page_config(page_title="Hash Crush", page_icon="❤️")
-
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+streamlit_page_config()
 
 st.write('<h1 style="font-weight:900; color:#d08770; font-size: 60px">Hash Crush</h1>', unsafe_allow_html=True)
 st.write('<div style="font-size: 20px; font-weight: 400;"> How this works </div>', unsafe_allow_html=True)
@@ -70,9 +50,11 @@ if 'selected' in url and len(url['selected']) > 1:
         else:
             st.error("Sorry, no match.")
 else:
-    button = st.button("Generate link")
+    button = st.button("/click_for_significant_other")
     if button:
         your_name = hash_text(your_name)
         crush_names = [hash_text(cn) for cn in crush_names]
         crush_names = '&selected=' + '&selected='.join(crush_names)
         st.success(f"Your link is {os.environ['site_url']}/?selected={your_name}{crush_names}")
+
+footer()

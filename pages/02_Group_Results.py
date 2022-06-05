@@ -4,52 +4,9 @@ import random
 import string
 import sqlite3 as sql
 import extra_streamlit_components as stx
+from utils import *
 
-
-@st.cache(allow_output_mutation=True)
-def get_manager():
-    return stx.CookieManager()
-
-
-def hash_text(text):
-    text = text.lower().strip()
-    hs = pbkdf2_sha256.using(rounds=6400).hash(text)
-    return hs[20:].replace('$', '')
-
-
-def verify_text(hs, text):
-    text = text.lower().strip()
-    hs = f"$pbkdf2-sha256$6400${hs[:-43]}${hs[-43:]}"
-    return pbkdf2_sha256.verify(text, hs)
-
-
-def get_event_ids():
-    conn = sql.connect('crush.db')
-    c = conn.cursor()
-    c.execute("SELECT DISTINCT event_id FROM crush")
-    event_ids = c.fetchall()
-    conn.close()
-    return event_ids
-
-
-def get_event(event_id):
-    conn = sql.connect('crush.db')
-    c = conn.cursor()
-    c.execute("SELECT * FROM crush WHERE event_id = ?", (event_id,))
-    entry = c.fetchall()
-    conn.close()
-    return entry
-
-
-st.set_page_config(page_title="Hash Crush", page_icon="❤️")
-
-hide_streamlit_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            </style>
-            """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+streamlit_page_config()
 
 st.write('<h1 style="font-weight:900; color:#d08770; font-size: 60px">Hash Crush</h1>', unsafe_allow_html=True)
 st.write('<div style="font-size: 20px; font-weight: 400;"> How this works </div>', unsafe_allow_html=True)
