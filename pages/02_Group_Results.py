@@ -8,10 +8,12 @@ from utils import *
 
 streamlit_page_config()
 
-st.write('<h1 style="font-weight:900; color:#d08770; font-size: 60px">Hash Crush</h1>', unsafe_allow_html=True)
+st.title("Hash Crush")
 st.write('<div style="font-size: 20px; font-weight: 400;"> How this works </div>', unsafe_allow_html=True)
 st.markdown('''
 Enter your name here to get your results.
+
+Note that you must be using the same browser/device, as names are stored in cookies.
 ''')
 
 group_id = st.text_input("Group ID")

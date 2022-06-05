@@ -7,12 +7,13 @@ import extra_streamlit_components as stx
 import time
 import os
 from utils import *
+import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
 streamlit_page_config()
 
-st.write('<h1 style="font-weight:900; color:#d08770; font-size: 60px">Hash Crush</h1>', unsafe_allow_html=True)
+st.title("Hash Crush")
 st.write('<div style="font-size: 20px; font-weight: 400;"> How this works </div>', unsafe_allow_html=True)
 st.markdown(f'''
 You enter your name and the name of your crush(es), both of which are hashed.
@@ -56,7 +57,7 @@ with st.form(key="Cookie"):
     # details here https://discuss.streamlit.io/t/cookies-support-in-streamlit/16144/35?u=stanleyjzheng
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     if submitted:
-        cookie_manager.set(cookie='crush_names', val=crush_names)
+        cookie_manager.set(cookie='crush_names', val=crush_names, expires_at=datetime.datetime.now() - datetime.timedelta(days=365))
         your_name = hash_text(your_name)
         crush_names = [hash_text(cn) for cn in crush_names]
         crush_names = '|'.join(crush_names)
