@@ -110,6 +110,7 @@ def verify_text(hs, text):
 
 
 def add_entry(your_name_hash, crush_names_hash, event_id):
+    event_id = event_id.lower().strip()
     conn = sql.connect('crush.db')
     c = conn.cursor()
     c.execute("INSERT INTO crush VALUES (?, ?, ?, ?)", (None, your_name_hash, crush_names_hash, event_id))
@@ -127,6 +128,7 @@ def get_event_ids():
 
 
 def get_event(event_id):
+    event_id = event_id.lower().strip()
     conn = sql.connect('crush.db')
     c = conn.cursor()
     c.execute("SELECT * FROM crush WHERE event_id = ?", (event_id,))
