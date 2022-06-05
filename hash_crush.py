@@ -2,6 +2,9 @@ import streamlit as st
 from passlib.hash import pbkdf2_sha256
 import random
 import string
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 def hash_text(text):
@@ -72,4 +75,4 @@ else:
         your_name = hash_text(your_name)
         crush_names = [hash_text(cn) for cn in crush_names]
         crush_names = '&selected=' + '&selected='.join(crush_names)
-        st.success(f"Your link is https://37dc-2604-3d09-d7f-6d00-78fe-af1e-b7f5-dc5c.ngrok.io/?selected={your_name}{crush_names}")
+        st.success(f"Your link is {os.environ['site_url']}/?selected={your_name}{crush_names}")

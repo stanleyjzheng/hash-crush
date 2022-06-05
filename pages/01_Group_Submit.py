@@ -5,6 +5,9 @@ import string
 import sqlite3 as sql
 import extra_streamlit_components as stx
 import time
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 
 @st.cache(allow_output_mutation=True)
@@ -22,14 +25,6 @@ def verify_text(hs, text):
     text = text.lower().strip()
     hs = f"$pbkdf2-sha256$6400${hs[:-43]}${hs[-43:]}"
     return pbkdf2_sha256.verify(text, hs)
-
-
-def generate_db():
-    conn = sql.connect('crush.db')
-    c = conn.cursor()
-    c.execute("CREATE TABLE IF NOT EXISTS crush (id INTEGER AUTOINCREMENT PRIMARY KEY, your_name_hash TEXT, crush_names_hash TEXT, event_id TEXT)")
-    conn.commit()
-    conn.close()
 
 
 def add_entry(your_name_hash, crush_names_hash, event_id):
@@ -61,13 +56,13 @@ st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 st.write('<h1 style="font-weight:900; color:#d08770; font-size: 60px">Hash Crush</h1>', unsafe_allow_html=True)
 st.write('<div style="font-size: 20px; font-weight: 400;"> How this works </div>', unsafe_allow_html=True)
-st.markdown('''
+st.markdown(f'''
 You enter your name and the name of your crush(es), both of which are hashed.
 These hashes are stored according to your Group ID.
 
-After everyone has entered their names and their crush's name, move onto the [results page](http://localhost:8501/Group_Results).
+After everyone has entered their names and their crush's name, move onto the [results page]({os.environ['site_url']}/Group_Results).
 
-Note that (anonymous), cryptographically secure hashes are saved to eliminate the need for link sharing. Please see [individual](http://localhost:8501) for a link-based implementation that does not save any data.
+Note that (anonymous), cryptographically secure hashes are saved to eliminate the need for link sharing. Please see [individual](os.environ['site_url']) for a link-based implementation that does not save any data.
 Names are temporarily stored in your browser's local cookies.
 ''')
 
