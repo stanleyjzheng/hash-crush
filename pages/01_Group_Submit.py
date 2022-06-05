@@ -62,3 +62,5 @@ with st.form(key="Cookie"):
         crush_names = '|'.join(crush_names)
         add_entry(your_name, crush_names, group_id)
         st.success("Your crush(es) have been added to the database. Proceed to the results page when everyone has submitted their crushes.")
+
+footer()

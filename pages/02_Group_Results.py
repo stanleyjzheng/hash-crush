@@ -45,3 +45,5 @@ if button:
             st.success(f"Amazing! You are a match for {', '.join(matches)}")
         else:
             st.error("Sorry, no matches.")
+
+footer()
