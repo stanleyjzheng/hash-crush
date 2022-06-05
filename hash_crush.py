@@ -3,13 +3,17 @@ from passlib.hash import pbkdf2_sha256
 import random
 import string
 
+
 def hash_text(text):
+    text = text.lower().strip()
     hs = pbkdf2_sha256.using(rounds=6400).hash(text)
     return hs[20:].replace('$', '')
 
-def verify_text(hs, txt):
+
+def verify_text(hs, text):
+    text = text.lower().strip()
     hs = f"$pbkdf2-sha256$6400${hs[:-43]}${hs[-43:]}"
-    return pbkdf2_sha256.verify(txt, hs)
+    return pbkdf2_sha256.verify(text, hs)
 
 
 st.set_page_config(page_title="Hash Crush", page_icon="❤️")
@@ -29,6 +33,8 @@ You enter your name and the name of your crush, both of which are hashed.
 A unique link is then generated that can be shared publicly, or anonymously (a school confessions page is a great place). 
 People can enter their names into this unique link to generate the hash of their name, as well as the hash of their crush (hopefully you!)
 If not, they will be told no match was made and no other info is revealed. 
+
+This does not save any of your data.
 ''')
 
 url = st.experimental_get_query_params()
@@ -66,4 +72,4 @@ else:
         your_name = hash_text(your_name)
         crush_names = [hash_text(cn) for cn in crush_names]
         crush_names = '&selected=' + '&selected='.join(crush_names)
-        st.success(f"Your link is http://localhost:8501/?selected={your_name}{crush_names}")
+        st.success(f"Your link is https://37dc-2604-3d09-d7f-6d00-78fe-af1e-b7f5-dc5c.ngrok.io/?selected={your_name}{crush_names}")
