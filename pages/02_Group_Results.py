@@ -22,30 +22,38 @@ your_name = st.text_input("Your name (first and last)").lower()
 if group_id not in [i[0] for i in get_event_ids()] and len(group_id)> 0:
     st.error("Group ID has not been used before. If you would like to create a Group ID, please go back to the Group Submit page. Otherwise, please ammend your group ID.")
 
-button = st.button("Submit")
 cookie_manager = get_manager()
 cookies = cookie_manager.get_all()
 
-if button:
-    event = get_event(group_id)
-    user_name = [i for i in event if verify_text(i[1], your_name)]
-    crush_names = cookies['crush_names']
-    if len(user_name) == 0:
-        st.error("Your name is not in the group. Please try again.")
-    else:
-        user_name = user_name[-1]
-        print(user_name)
-        matches = []
-        for user in event:
-            all_crushes = user[2].split('|')
-            for hsh in all_crushes:
-                if verify_text(hsh, your_name):
-                    for crush_name in crush_names:
-                        if verify_text(user[1], crush_name):
-                            matches.append(crush_name)
-        if len(matches) > 0:
-            st.success(f"Amazing! You are a match for {', '.join(matches)}")
+with st.form(key="Cookie"):
+    submitted = st.form_submit_button("Submit")
+    hide_streamlit_style = """
+    <style>
+    [data-testid="stForm"] {border: none; padding: 0;}
+    </style>
+    """
+    # incredibly hacky way to prevent st.success from disappearing instantly
+    # details here https://discuss.streamlit.io/t/cookies-support-in-streamlit/16144/35?u=stanleyjzheng
+    st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+    if submitted:
+        event = get_event(group_id)
+        user_name = [i for i in event if verify_text(i[1], your_name)]
+        crush_names = cookies['crush_names']
+        if len(user_name) == 0:
+            st.error("Your name is not in the group. Please try again.")
         else:
-            st.error("Sorry, no matches.")
+            user_name = user_name[-1]
+            matches = []
+            for user in event:
+                all_crushes = user[2].split('|')
+                for hsh in all_crushes:
+                    if verify_text(hsh, your_name):
+                        for crush_name in crush_names:
+                            if verify_text(user[1], crush_name):
+                                matches.append(crush_name)
+            if len(matches) > 0:
+                st.success(f"Amazing! You are a match for {', '.join(matches)}")
+            else:
+                st.error("Sorry, no matches.")
 
 footer()
