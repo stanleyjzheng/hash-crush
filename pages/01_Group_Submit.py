@@ -1,14 +1,10 @@
-import streamlit as st
-from passlib.hash import pbkdf2_sha256
-import random
-import string
-import sqlite3 as sql
-import extra_streamlit_components as stx
-import time
-import os
-from utils import *
 import datetime
+import os
+
 from dotenv import load_dotenv
+
+from utils import *
+
 load_dotenv()
 
 streamlit_page_config()
@@ -19,11 +15,11 @@ st.markdown(f'''
 You enter your name and the name of your crush(es), both of which are hashed.
 These hashes are stored according to your Group ID.
 
-After everyone has entered their names and their crush's name, move onto the [results page]({os.environ['site_url']}/Group_Results).
+After everyone has entered their names and their crush's name, move onto the [results page]({os.environ['site_url']}/Group_Results). 
 
-Note that (anonymous), cryptographically secure hashes are saved to eliminate the need for link sharing. Please see [individual](os.environ['site_url']) for a link-based implementation that does not save any data.
-Names are temporarily stored in your browser's local cookies.
-''')
+Note that (anonymous), cryptographically secure hashes are saved to eliminate the need for link sharing. Please see [
+individual](os.environ['site_url']) for a link-based implementation that does not save any data. Names are 
+temporarily stored in your browser's local cookies. ''')
 
 group_id = st.text_input("Group ID")
 your_name = st.text_input("Your name (first and last)").lower()
@@ -39,10 +35,12 @@ if add:
     st.experimental_rerun()
 
 for i in range(st.session_state.n_rows):
-    crush_names.append(st.text_input(label="Your crush's name (first and last)", key=i)) #Pass index as key
+    crush_names.append(st.text_input(label="Your crush's name (first and last)", key=i))  # Pass index as key
 
-if group_id not in [i[0] for i in get_event_ids()] and len(group_id)> 0:
-    st.warning("Group ID has not been used before. If you would like to proceed, you will be the first one to add your crushes. Otherwise, please ammend your group ID.")
+if group_id not in [i[0] for i in get_event_ids()] and len(group_id) > 0:
+    st.warning(
+        "Group ID has not been used before. If you would like to proceed, you will be the first one to add your "
+        "crushes. Otherwise, please amend your group ID.")
 
 cookie_manager = get_manager()
 
@@ -62,6 +60,8 @@ with st.form(key="Cookie"):
         crush_names = [hash_text(cn) for cn in crush_names]
         crush_names = '|'.join(crush_names)
         add_entry(your_name, crush_names, group_id)
-        st.success("Your crush(es) have been added to the database. Proceed to the results page when everyone has submitted their crushes.")
+        st.success(
+            "Your crush(es) have been added to the database. Proceed to the results page when everyone has submitted "
+            "their crushes.")
 
 footer()

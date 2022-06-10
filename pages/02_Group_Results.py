@@ -19,8 +19,10 @@ Note that you must be using the same browser/device, as names are stored in cook
 group_id = st.text_input("Group ID")
 your_name = st.text_input("Your name (first and last)").lower()
 
-if group_id not in [i[0] for i in get_event_ids()] and len(group_id)> 0:
-    st.error("Group ID has not been used before. If you would like to create a Group ID, please go back to the Group Submit page. Otherwise, please ammend your group ID.")
+if group_id not in [i[0] for i in get_event_ids()] and len(group_id) > 0:
+    st.error(
+        "Group ID has not been used before. If you would like to create a Group ID, please go back to the Group "
+        "Submit page. Otherwise, please amend your group ID.")
 
 cookie_manager = get_manager()
 cookies = cookie_manager.get_all()

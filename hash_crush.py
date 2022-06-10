@@ -1,21 +1,19 @@
-import streamlit as st
-from passlib.hash import pbkdf2_sha256
-import random
-import string
 import os
+
 from dotenv import load_dotenv
+
 from utils import *
+
 load_dotenv()
 
 streamlit_page_config()
 
 st.title("Hash Crush")
 st.write('<div style="font-size: 20px; font-weight: 400;"> How this works </div>', unsafe_allow_html=True)
-st.markdown('''
-You enter your name and the name of your crush, both of which are hashed.
-A unique link is then generated that can be shared publicly, or anonymously (a school confessions page is a great place). 
-People can enter their names into this unique link to generate the hash of their name, as well as the hash of their crush (hopefully you!)
-If not, they will be told no match was made and no other info is revealed. 
+st.markdown('''You enter your name and the name of your crush, both of which are hashed. A unique link is then 
+generated that can be shared publicly, or anonymously (a school confessions page is a great place). People can enter 
+their names into this unique link to generate the hash of their name, as well as the hash of their crush (hopefully 
+you!) If not, they will be told no match was made and no other info is revealed. 
 
 This does not save any of your data.
 ''')
@@ -34,7 +32,7 @@ if add:
     st.experimental_rerun()
 
 for i in range(st.session_state.n_rows):
-    crush_names.append(st.text_input(label="Your crush's name (first and last)", key=i)) #Pass index as key
+    crush_names.append(st.text_input(label="Your crush's name (first and last)", key=i))  # Pass index as key
 
 if 'selected' in url and len(url['selected']) > 1:
     url_your_name = url['selected'][0]
