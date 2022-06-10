@@ -25,8 +25,8 @@ if group_id not in [i[0] for i in get_event_ids()] and len(group_id)> 0:
 cookie_manager = get_manager()
 cookies = cookie_manager.get_all()
 
-with st.form(key="Cookie"):
-    submitted = st.form_submit_button("Submit")
+with st.form(key="Cookie2"):
+    submitted = st.form_submit_button("/click_for_significant_other")
     hide_streamlit_style = """
     <style>
     [data-testid="stForm"] {border: none; padding: 0;}

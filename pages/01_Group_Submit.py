@@ -47,7 +47,7 @@ if group_id not in [i[0] for i in get_event_ids()] and len(group_id)> 0:
 cookie_manager = get_manager()
 
 with st.form(key="Cookie"):
-    submitted = st.form_submit_button("Submit")
+    submitted = st.form_submit_button("/click_for_significant_other")
     hide_streamlit_style = """
     <style>
     [data-testid="stForm"] {border: none; padding: 0;}
@@ -57,7 +57,7 @@ with st.form(key="Cookie"):
     # details here https://discuss.streamlit.io/t/cookies-support-in-streamlit/16144/35?u=stanleyjzheng
     st.markdown(hide_streamlit_style, unsafe_allow_html=True)
     if submitted:
-        cookie_manager.set(cookie='crush_names', val=crush_names, expires_at=datetime.datetime.now() - datetime.timedelta(days=365))
+        cookie_manager.set(cookie='crush_names', val=crush_names, expires_at=datetime.date(2022, 12, 31))
         your_name = hash_text(your_name)
         crush_names = [hash_text(cn) for cn in crush_names]
         crush_names = '|'.join(crush_names)
